@@ -6,16 +6,19 @@ namespace MoodAnalyserProblemTest
     [TestClass]
     public class MoodAnalyserTest
     {
+        
         [TestMethod]
         public void GivenHappyMessage_WhenAnalyze_ShouldReturnHappy()
         {
-            string actual = MoodAnalyser.AnalyseMood("I am in Happy Mood");
+            MoodAnalyser mood = new MoodAnalyser("I am in Happy Mood");
+            string actual = mood.AnalyseMood();
             Assert.AreEqual(actual, "HAPPY");
         }
         [TestMethod]
         public void GivenSadMessage_WhenAnalyze_ShouldReturnSad()
         {
-            string actual = MoodAnalyser.AnalyseMood("I am in Sad Mood");
+            MoodAnalyser mood = new MoodAnalyser("I am in Sad Mood");
+            string actual = mood.AnalyseMood();
             Assert.AreEqual(actual, "SAD");
         }
     }
