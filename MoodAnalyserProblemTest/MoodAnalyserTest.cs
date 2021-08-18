@@ -6,7 +6,8 @@ namespace MoodAnalyserProblemTest
     [TestClass]
     public class MoodAnalyserTest
     {
-        
+        public string EMPTY_MOOD { get; private set; }
+
         [TestMethod]
         public void GivenHappyMessage_WhenAnalyze_ShouldReturnHappy()
         {
@@ -24,10 +25,24 @@ namespace MoodAnalyserProblemTest
         [TestMethod]
         public void GivenNullMessage_WhenAnalyze_ShouldReturnException()
         {
+            string expected = "You Entered Empty Mood, Enter Valid Mood";
+            try
+            {
+                MoodAnalyser mood = new MoodAnalyser("");
+                string actual = mood.AnalyseMood();
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
+            }
+        }
+        [TestMethod]
+        public void GivenEmptyMessage_WhenAnalyze_ShouldReturnException()
+        {
             MoodAnalyser mood = new MoodAnalyser(null);
             string actual = mood.AnalyseMood();
-            Assert.AreEqual(actual, "HAPPY");
+            //string expected = "You Enterd Empty Mood, Enter Valid Mood";
+            Assert.AreEqual(actual, "You Entered Null Mood, Enter Valid Mood");
         }
-
     }
 }
