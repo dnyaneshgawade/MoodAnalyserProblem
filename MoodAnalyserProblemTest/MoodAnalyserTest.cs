@@ -48,7 +48,7 @@ namespace MoodAnalyserProblemTest
         public void GivenMoodAnalyserReflection_ShouldReturnObject()
         {
             object expected = new MoodAnalyser();
-            object actual = MoodAnalyserFactory.CreateMoodAnalyse("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser");
+            object actual = MoodAnalyserReflector.CreateMoodAnalyse("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser");
             expected.Equals(actual);
         }
         [TestMethod]
@@ -57,7 +57,7 @@ namespace MoodAnalyserProblemTest
             string expected = "No such class";
             try
             {
-                object actual = MoodAnalyserFactory.CreateMoodAnalyse("Mood.MoodAnalyser", "MoodAnalyser");
+                object actual = MoodAnalyserReflector.CreateMoodAnalyse("Mood.MoodAnalyser", "MoodAnalyser");
             }
             catch (MoodAnalyserException exception)
             {
@@ -70,7 +70,7 @@ namespace MoodAnalyserProblemTest
             string expected = "No such Constructor";
             try
             {
-                object actual = MoodAnalyserFactory.CreateMoodAnalyse("MoodAnalyser", "MoodAnalyser");
+                object actual = MoodAnalyserReflector.CreateMoodAnalyse("MoodAnalyser", "MoodAnalyser");
             }
             catch (MoodAnalyserException exception)
             {
@@ -82,7 +82,7 @@ namespace MoodAnalyserProblemTest
         public void GivenMoodAnalyserParamrterizedConstructor_ShouldReturnObject()
         {
             object expected = new MoodAnalyser();
-            object actual = MoodAnalyserFactory.CreateMoodAnalyseForParametrisedConstructor("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser","happy");
+            object actual = MoodAnalyserReflector.CreateMoodAnalyseForParametrisedConstructor("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser","happy");
             expected.Equals(actual);
         }
         [TestMethod]
@@ -91,7 +91,7 @@ namespace MoodAnalyserProblemTest
             string expected = "No such class";
             try
             {
-                object actual = MoodAnalyserFactory.CreateMoodAnalyseForParametrisedConstructor("Mood.MoodAnalyser", "MoodAnalyser","happy");
+                object actual = MoodAnalyserReflector.CreateMoodAnalyseForParametrisedConstructor("Mood.MoodAnalyser", "MoodAnalyser","happy");
             }
             catch (MoodAnalyserException exception)
             {
@@ -104,11 +104,32 @@ namespace MoodAnalyserProblemTest
             string expected = "No such Constructor";
             try
             {
-                object actual = MoodAnalyserFactory.CreateMoodAnalyseForParametrisedConstructor("MoodAnalyser", "MoodAnalyser","Happy");
+                object actual = MoodAnalyserReflector.CreateMoodAnalyseForParametrisedConstructor("MoodAnalyser", "MoodAnalyser","Happy");
             }
             catch (MoodAnalyserException exception)
             {
                 Assert.AreEqual(expected, exception.Message);
+            }
+        }
+        [TestMethod]
+        public void InvokeMethodUsingReflection_ShouldRetunHappy()
+        {
+            string expected = "HAPPY";
+            string actual = MoodAnalyserReflector.InvokeAnalyseMood("happy", "AnalyseMood");
+            expected.Equals(actual);
+        }
+        [TestMethod]
+        public void GivenMethodnameImproper_ShouldReturnMoodAnalysisException()
+        {
+            string expected = "No method found";
+            try
+            {
+                string actual = MoodAnalyserReflector.InvokeAnalyseMood("Happy", "MoodAnalyser");
+                expected.Equals(actual);
+            }
+            catch (MoodAnalyserException ex)
+            {
+                Assert.AreEqual(expected, ex.Message);
             }
         }
     }

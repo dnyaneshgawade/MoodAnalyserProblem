@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MoodAnalyserProblem
 {
-    public class MoodAnalyserFactory
+    public class MoodAnalyserReflector
     {
         public static object CreateMoodAnalyse(string className, string constructorName)
         {
@@ -57,6 +57,22 @@ namespace MoodAnalyserProblem
             catch (Exception e)
             {
                 return e;
+            }
+        }
+
+        public static string InvokeAnalyseMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType("MoodAnalyserProblem.MoodAnalyser");
+                object moodAnalyseObject = CreateMoodAnalyseForParametrisedConstructor("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser", message);
+                MethodInfo methodInfo = type.GetMethod(methodName);
+                object mood = methodInfo.Invoke(moodAnalyseObject, null);
+                return mood.ToString();
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserException(MoodAnalyserException.ExceptionType.NO_SUCH_METHOD, "No method found");
             }
         }
     }
