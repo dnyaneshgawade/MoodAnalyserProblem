@@ -41,8 +41,41 @@ namespace MoodAnalyserProblemTest
         {
             MoodAnalyser mood = new MoodAnalyser(null);
             string actual = mood.AnalyseMood();
-            //string expected = "You Enterd Empty Mood, Enter Valid Mood";
             Assert.AreEqual(actual, "You Entered Null Mood, Enter Valid Mood");
+        }
+
+        [TestMethod]
+        public void GivenMoodAnalyserReflection_ShouldReturnObject()
+        {
+            object expected = new MoodAnalyser();
+            object actual = MoodAnalyserFactory.CreateMoodAnalyse("MoodAnalyserProblem.MoodAnalyser", "MoodAnalyser");
+            expected.Equals(actual);
+        }
+        [TestMethod]
+        public void GivenImproperClassName_ShouldReturnMoodAnalysisException()
+        {
+            string expected = "No such class";
+            try
+            {
+                object actual = MoodAnalyserFactory.CreateMoodAnalyse("Mood.MoodAnalyser", "MoodAnalyser");
+            }
+            catch (MoodAnalyserException exception)
+            {
+                Assert.AreEqual(expected, exception.Message);
+            }
+        }
+        [TestMethod]
+        public void GivenConstructorNameImproper_ShouldReturnMoodAnalysisException()
+        {
+            string expected = "No such Constructor";
+            try
+            {
+                object actual = MoodAnalyserFactory.CreateMoodAnalyse("MoodAnalyser", "MoodAnalyser");
+            }
+            catch (MoodAnalyserException exception)
+            {
+                Assert.AreEqual(expected, exception.Message);
+            }
         }
     }
 }
