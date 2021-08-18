@@ -132,5 +132,40 @@ namespace MoodAnalyserProblemTest
                 Assert.AreEqual(expected, ex.Message);
             }
         }
+        [TestMethod]
+        public void GivenSetMoodDynamically_ShouldReturnHappy()
+        {
+            string expected = "HAPPY";
+            string actual = MoodAnalyserReflector.SetField("Happy", "message");
+            expected.Equals(actual);
+        }
+        [TestMethod]
+        public void GivenFieldNameImproper_ShouldReturnMoodAnaysisException()
+        {
+            string expected = "Field is not found";
+            try
+            {
+                string actual = MoodAnalyserReflector.SetField("message","Happy");
+                expected.Equals(actual);
+            }
+            catch (MoodAnalyserException e)
+            {
+                Assert.AreEqual(expected, e.Message);
+            }
+        }
+        [TestMethod]
+        public void ChangeMeassageDynamically_ShouldReturnMessage()
+        {
+            string expected = "Message should not be null";
+            try
+            {
+                string actual = MoodAnalyserReflector.SetField(null, "message");
+                expected.Equals(actual);
+            }
+            catch (MoodAnalyserException e)
+            {
+                Assert.AreEqual(expected, e.Message);
+            }
+        }
     }
 }
